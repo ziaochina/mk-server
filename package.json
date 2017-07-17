@@ -1,5 +1,5 @@
 {
-  "name": "xr-server",
+  "name": "mk-server",
   "version": "0.0.7",
   "description": "node restful server",
   "main": "src/index.js",
