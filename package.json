@@ -1,0 +1,25 @@
+{
+  "name": "xr-server",
+  "version": "0.0.7",
+  "description": "node restful server",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "lsg",
+  "license": "MIT",
+  "dependencies": {
+    "continuation-local-storage": "^3.2.0",
+    "hapi": "^16.4.3",
+    "hessian.js": "^2.1.8",
+    "inert": "^4.2.0",
+    "js-to-java": "^2.4.0",
+    "jsonwebtoken": "^7.4.1",
+    "mysql2": "^1.3.5",
+    "node-zookeeper-dubbo": "^2.2.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "sequelize": "^4.3.1"
+  }
+}
