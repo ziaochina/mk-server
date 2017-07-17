@@ -1,11 +1,9 @@
 //数据库模型的定义，在DAO文件中使用。
 const Sequelize = require("sequelize")
+const config = require('./config')
 
-let api = {
-  db: true,
-}
+let api = config.getCurrent();
 exports._init = (inject) =>{
-  inject(api);
   exports.User = api.db.define('user', cfg.user, cfg.user_config);
   exports.Log = api.db.define('log', cfg.log, cfg.log_config);
 }

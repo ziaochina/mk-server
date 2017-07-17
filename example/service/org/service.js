@@ -1,7 +1,7 @@
 const dao = require('./dao')
 
-exports._init = (inject) => {
-  dao._init(inject);
+exports._init = () => {
+  dao._init();
 }
 
 exports.ping = (dto) => {

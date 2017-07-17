@@ -1,33 +1,26 @@
 //service只有业务逻辑代码，没有操作数据库的实现代码，通过_init的依赖其它api。
 const dao = require('./dao')
+const config = require('./config')
 
-let api = {
-  org: true,
-  rest: {
-    web: true,
-  },
-  dubbo: true,
-  utils: true,
-  cfg: true,
-}
+let api = config.getCurrent();
 
-exports._init = (inject) => {
-  inject([dao, api])
+exports._init = () =>{
+  dao._init();
 }
 
 exports.ping = (dto, ctx) => {
   try {
     return dto||true;
     // console.log(api.dubbo.app)
-  return api.dubbo.IAppService.queryById(1000)
-    .then(data=>ctx.return(data))
+    return api.IAppService.queryById(1000)
+      .then(data=>ctx.return(data))
   } catch (e) {
     console.log(e)
   } finally {
 
   }
   // ctx.token([2078997663385600,null,null,null]);
-  // return api.rest.web.orginit(dto, ctx);
+  // return api.web.orginit(dto, ctx);
 }
 
 exports.log = (arr, ctx) => {
@@ -63,6 +56,10 @@ exports.login = (dto, ctx) => {
 }
 
 exports.logout = (userDto, ctx) => {
+    return ctx.token();
+}
+exports.create = (dto, ctx) => {
+    api.orgService.create({name:dto.orgName});
     return ctx.token();
 }
 

@@ -1,15 +1,11 @@
-const service = require('./service');
+const config = require('./config');
+const api = require('./api');
 
-
-Object.assign(exports, service);
-
-exports._init = (inject) => {
-	inject(service)
+module.exports = {
+	name: "mk-service-scene",
+	version: "",
+	description: "",
+	config: config,
+	api: api,
+  dependencies: ['db'],
 }
-
-// exports.ping = service.ping
-// exports.create = service.create;
-// exports.createOperate = service.createOperate;
-// exports.delete = service.delete;
-// exports.findById = service.findById;
-// exports.findByAll = service.findByAll;

@@ -1,13 +1,11 @@
-const service = require('./service');
+const config = require('./config');
+const api = require('./api');
 
-exports._init = (injector) => {
-	injector(service);
-}
-/**
- * 门户初始化
- * @param  {[type]} data [description]
- * @return {[type]}      [description]
- */
-exports.ping = (data) => {
-	return service.ping(data)
+module.exports = {
+	name: "mk-service-org",
+	version: "",
+	description: "",
+	config: config,
+	api: api,
+  dependencies: ['db'],
 }

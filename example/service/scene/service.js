@@ -1,8 +1,8 @@
 //service只有业务逻辑代码，没有操作数据库的实现代码，通过_init的依赖其它api。
 const dao = require('./dao')
 
-exports._init = (inject) => {
-  inject(dao);
+exports._init = () => {
+  dao._init();
 }
 
 exports.ping = (dto, ctx) => {

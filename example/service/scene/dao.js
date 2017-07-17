@@ -3,8 +3,8 @@
 const models = require('./model')
 const mapper = require('./mapper')
 
-exports._init = (inject) => {
-  inject(models);
+exports._init = () => {
+  models._init();
 }
 
 exports.create = (dto) => models.Scene.create(dto,{include: [models.Operates]});

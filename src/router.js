@@ -1,8 +1,10 @@
 
-exports.router = resolveApiPath;
+exports.router = resolveServicePath;
 
-function resolveApiPath(path, api, auth, transaction, routes){
+function resolveServicePath(path, service, auth, transaction, routes){
   routes = routes || [];
+  let api = service;
+  if (service.api) api = service.api;
   for (let key in api) {
     let method = api[key];
     let methodPath = path + '/' + key;
@@ -10,7 +12,7 @@ function resolveApiPath(path, api, auth, transaction, routes){
       continue;
     }
     else if (typeof method == "object"){
-      resolveApiPath(methodPath, method, auth, transaction, routes)
+      resolveServicePath(methodPath, method, auth, transaction, routes)
     }
     else if (typeof method == 'function'){
       //method.url = methodPath;
@@ -82,7 +84,7 @@ const contextFun = {
   },
   error: function(error) {
     this.res.result = false;
-    this.res.error = error;
+    this.res.error = {message: error.mssage, code: error.code, stack: error.stack};
     this.reply(this.res);
   },
   token: function(json, authType) {

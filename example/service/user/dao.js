@@ -2,15 +2,15 @@
 //const Sequelize = require("sequelize")
 const models = require('./model')
 const mapper = require('./mapper')
+const config = require('./config')
 
-let api = {
-  db: true,
-}
+let api = config.getCurrent();
+
 let User = null;
 let Log = null;
 
-exports._init = (inject) => {
-  inject([models, api]);
+exports._init = () => {
+  models._init();
   User = models.User;
   Log = models.Log;
 }

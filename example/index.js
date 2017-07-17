@@ -1,9 +1,29 @@
-//const xrServer = require('./../src')
-const xrServer = require('xr-server')
+const Server = require('./../src')
+//const Server = require('mk-server')
 const config = require('./config');
-const service = require('./service');
-const remote = require('./remote');
+const dubbo = require('./remote/dubbo')
+const rest = require('./remote/rest')
+const remote = {
+  dubbo,
+  rest,
+}
 
-const server = new xrServer(config, service, remote);
+const org   = require('./service/org');
+const scene = require('./service/scene');
+const user  = require('./service/user');
+
+const services = {
+  org,
+  scene,
+  user,
+}
+
+const server = new Server();
+
+server.config({
+  config,
+  services,
+  remote
+})
 
 server.start();
