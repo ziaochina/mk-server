@@ -10,6 +10,7 @@ exports._init = () =>{
 
 exports.ping = (dto, ctx) => {
   try {
+    return api.orgService.ping(dto);
     return dto||true;
     // console.log(api.dubbo.app)
     return api.IAppService.queryById(1000)

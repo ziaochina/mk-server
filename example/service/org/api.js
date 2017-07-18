@@ -9,5 +9,5 @@ exports._init = () => {
  * @return {[type]}      [description]
  */
 exports.ping = (data) => {
-	return service.ping(data)
+	return service.ping(" org ping called.")
 }

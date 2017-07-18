@@ -1,15 +1,11 @@
-let _options = {}
+let _myOptions = {}
 
-function config(options){
-  this.dependencies.map(dep => {
-    let serviceName = dep.split(' as ')[0];
-    let alias = dep.split(' as ')[1] || serviceName;
-    _options[alias] = options.services[serviceName];
-  })
+function config(options, reference){
+  Object.assign(_myOptions, reference);
 }
 
 function getCurrent(){
-  return _options;
+  return _myOptions;
 }
 
 config.getCurrent = getCurrent;
