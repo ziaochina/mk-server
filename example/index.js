@@ -1,5 +1,5 @@
-const Server = require('./../src')
-//const Server = require('mk-server')
+//const Server = require('./../src')
+const Server = require('mk-server')
 const config = require('./config');
 const dubbo = require('./remote/dubbo')
 const rest = require('./remote/rest')
