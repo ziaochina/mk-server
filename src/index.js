@@ -71,6 +71,9 @@ module.exports = function(){
     this.webServer.connection({
        host: config.host,
        port: config.port,
+       state:{
+         strictHeader: false,
+       },
     });
 
     //静态文件
