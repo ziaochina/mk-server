@@ -24,12 +24,13 @@ module.exports = function(){
     config = config || {};
     services =  services || {};
     let server = this;
-    //this.initMethodName = config.service && config.service.initMethodName || '_init';
+    let initMethodName = config.service && config.service.initMethodName || '_init';
     let apiRootUrl = config && config.apiRootUrl || '';
     let localproviders = resolveService(services);//本地的服务提供者
     let rpc = remote && utils.rpc(remote, config.rpc);//RPC 远程的服务提供者
     let db = config.db && utils.orm(config.db);//ORM 持久化组件
 
+    
     let providers = Object.assign( //服务提供者
       {
         cfg: config,
@@ -52,12 +53,11 @@ module.exports = function(){
     if(config.db && config.db.transactionType == "auto"){ //不启用数据库事务
       transactionMethod = f => db.transaction(f);
     }
-
     //config all services
     configService(providers);
 
     //init all services
-    initService(providers);
+    initService(providers, initMethodName);
 
     //注入服务提供者
     //utils.injector(services, providers, initMethodName);
@@ -130,12 +130,12 @@ function configService(services){
   }
 }
 
-function initService(services){
+function initService(services, initMethodName){
   for (var key in services) {
     if (!services.hasOwnProperty(key)) continue;
     var service = services[key];
-    if(service && service.api && typeof service.api._init == "function"){
-      service.api._init();
+    if(service && service.api && typeof service.api[initMethodName] == "function"){
+      service.api[initMethodName]();
     }
   }
 }

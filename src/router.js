@@ -84,7 +84,7 @@ const contextFun = {
   },
   error: function(error) {
     this.res.result = false;
-    this.res.error = {message: error.mssage, code: error.code, stack: error.stack};
+    this.res.error = {message: error.message, code: error.code, stack: error.stack};
     this.reply(this.res);
   },
   token: function(json, authType) {
@@ -99,14 +99,14 @@ const contextFun = {
   validate: function(handler) {
     if(!this.auth)return true;
     if(!this.request.headers.token && handler.auth !== false){
-      this.error("未登录");
+      this.error({code:'402',message:'未登录'});
       return false;
     }else{
       let authType = handler.auth || "base";
       try{
         this.tokenInHeader = this.auth && this.auth[authType].getJson(this.request.headers.token || "");
       }catch(ex){
-        this.error("未登录");
+        this.error({code:'402',message:'未登录'});
       }
       return true;
     }

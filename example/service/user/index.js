@@ -5,7 +5,7 @@ module.exports = {
 	name: "mk-service-user",
 	version: "",
 	description: "",
-	config: config,
-	api: api,
+	config,
+	api,
   dependencies: ['mk-service-org as orgService', 'utils', 'db', 'cfg'], 
 }
