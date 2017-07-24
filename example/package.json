@@ -10,6 +10,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "mk-server": "^0.0.9"
+    "mk-server": "^0.1.01"
   }
 }
