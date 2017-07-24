@@ -2,7 +2,7 @@ const config = require('./config')
 const api = require('./api')
 
 module.exports = {
-    name: "user",
+    name: "user_log",
 	version: "",
     description: "",
     author: "lsg",

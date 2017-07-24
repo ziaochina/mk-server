@@ -1,51 +1,16 @@
-const service = require('./service');
+const service = require('./service')
 
-exports._init = () => {
-	service._init();
+exports.login = ({username, password}, ctx) => {
+    return service.login(username, password).then(user => {
+        if(user){ 
+            ctx.token([user.id, null, null, null])
+            ctx.return(true)
+        }else{
+            ctx.return(false)
+        }
+    })
 }
+exports.login.auth = false
 
-/**
- * 检测
- * @param  {[type]} data [description]
- * @return {[type]}      [description]
- */
-exports.ping = (data, context) => {
-	return service.ping(data, context)
-}
-exports.ping.auth = false;
-
-/**
- * 用户操作日志
- * @param  {[type]} data [description]
- * @return {[type]}      [description]
- */
-exports.log = (arr) => {
-	return service.log(arr)
-}
-
-/**
- * 登录
- * @param  {[type]} data [description]
- * @return {[type]}      [description]
- */
-exports.login = (data, context) => {
-	return service.login(data, context)
-}
-exports.login.auth = false;
-/**
- * 注销
- * @param  {[type]} data [description]
- * @return {[type]}      [description]
- */
-exports.logout = (data, ctx) => {
-	return service.logout(data, ctx)
-}
-
-/**
- * 注销
- * @param  {[type]} data [description]
- * @return {[type]}      [description]
- */
-exports.countByAppId = (data, context) => {
-	return service.countByAppId(data, context)
-}
+exports.ping = (dto) => dto 
+exports.ping.auth = false

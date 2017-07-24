@@ -1,29 +1,25 @@
-//const Server = require('./../src')
-const Server = require('mk-server')
-const config = require('./config');
-const dubbo = require('./remote/dubbo')
-const rest = require('./remote/rest')
-const remote = {
-  dubbo,
-  rest,
-}
-
-const org   = require('./service/org');
-const scene = require('./service/scene');
-const user  = require('./service/user');
+const {config, api:{start, utils}} = require("../src")
+//const {config, start, utils} = require("mk-server")
+const myConfig = require("./config")  
+const user = require("./service/user") 
+const user_log = require("./service/user/service/log") 
 
 const services = {
-  org,
-  scene,
-  user,
+    [utils.name]: utils,   
+    [user.name]: user, 
+    [user_log.name]: user_log, 
 }
 
-const server = new Server();
+services.config = function(options){ 
+    Object.keys(this).forEach(k=> { 
+        if(!this[k].config)return;
+        let curCfg = Object.assign({}, options["*"], options[k])
+        this[k].config(curCfg);  
+    })
+}
 
-server.config({
-  config,
-  services,
-  remote
-})
+services.config({"*": {services}})
 
-server.start();
+config(myConfig({services}))
+
+start()

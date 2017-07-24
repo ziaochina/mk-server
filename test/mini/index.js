@@ -4,10 +4,10 @@ const Server = require('./../../src');
 const server = new Server();
 
 server.config({
-  config: {"host": "localhost", "port": 8000, "apiRootUrl": "/v1"},
+  "host": "localhost", "port": 8000, "apiRootUrl": "/v1",
   services: {
     say: {
-      name: "helloworld",
+      name: "say",
       api: {
         helloworld: () => "helloworld",           //http://localhost:8000/v1/say/helloworld
       },
@@ -15,7 +15,8 @@ server.config({
     user: {
       name: "user",
       api: {
-        create: (dto, ctx) => ctx.return(dto),    //http://localhost:8000/v1/user/create
+        create: (dto, ctx) => ctx.return(ctx.request.headers),    //http://localhost:8000/v1/user/create
+        ping: (dto) => dto,
       },
     },
   },

@@ -2,7 +2,7 @@ const rp = require('request-promise');
 const nzd = require('node-zookeeper-dubbo');
 const java = require('js-to-java');
 
-exports.rpc = (remote, cfg) => {
+function rpc(remote, cfg){
   let proviers = {};
   let restPrefix = cfg && cfg.rest && cfg.rest.apiPrefix ;
   let dubboPrefix = cfg && cfg.dubbo && cfg.dubbo.apiPrefix ;
@@ -20,6 +20,17 @@ exports.rpc = (remote, cfg) => {
   }
   return proviers
 }
+
+
+rpc.rest = function(option){
+
+}
+
+rpc.dubbo = function(option){
+
+}
+
+exports.rpc = rpc;
 
 const restWrapper = (apis, restcfg, apiProxy, serverUrl) => {
   if(!restcfg)return;

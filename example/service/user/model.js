@@ -1,48 +1,28 @@
 //数据库模型的定义，在DAO文件中使用。
-const Sequelize = require("sequelize")
-const config = require('./config')
+const cfg = require('./config').current 
 
-let api = config.getCurrent();
-exports._init = (inject) =>{
-  exports.User = api.db.define('user', cfg.user, cfg.user_config);
-  exports.Log = api.db.define('log', cfg.log, cfg.log_config);
+let User = null
+let UserLog = null 
+
+exports.User = () => {
+  var db = cfg.services.utils.api.db
+  if(!User)User = db.import('user', userDefine);
+  return User;
 }
 
-let cfg = {
-  user: {
-    id: { type: Sequelize.BIGINT, primaryKey: true},
-    name: Sequelize.STRING,
-    password: Sequelize.STRING,
-    email: Sequelize.STRING,
-    mobile: Sequelize.STRING,
-  },
-  user_config: {
+
+function userDefine(db, DataTypes){
+  return db.define("user",{ 
+    id: { type: DataTypes.BIGINT, primaryKey: true},
+    name: DataTypes.STRING,
+    password: DataTypes.STRING,
+    email: DataTypes.STRING,
+    mobile: DataTypes.STRING,
+  },{
     updatedAt:  false,
     createdAt: 'createtime',
-    tableName: 'sys_user',
-  },
-  log: {
-    id: { type: Sequelize.BIGINT, primaryKey: true},
-    orgid: Sequelize.BIGINT,
-    userid: Sequelize.BIGINT,
-    deviceId: Sequelize.BIGINT,
-    useragent: Sequelize.STRING,
-    osfamily: Sequelize.STRING,
-    osname: Sequelize.STRING,
-    uafamily: Sequelize.STRING,
-    browserversioninfo: Sequelize.STRING,
-    uaname: Sequelize.STRING,
-    devicetype: Sequelize.STRING,
-    uatype: Sequelize.STRING,
-    ip: Sequelize.STRING,
-    url: Sequelize.STRING,
-    pagename: Sequelize.STRING,
-    actionname: Sequelize.STRING,
-    actionResult: Sequelize.STRING,
-  },
-  log_config: {
-      updatedAt:  false,
-      createdAt: 'createtime',
-      tableName: 'sys_user_log',
-  }
+    tableName: 'sys_user', 
+  })
 }
+
+ 

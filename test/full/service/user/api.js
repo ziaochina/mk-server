@@ -1,6 +1,4 @@
-let api = {
-
-  _init: () => console.log("_init service"),
+module.exports  = { 
 
   helloworld: () => "hello world",
 
@@ -19,8 +17,4 @@ let api = {
   token: (data, ctx) => ctx.token("this is a token.").return(true),
 
 }
-
-module.exports = {
-  name: "api",
-  api: api,
-}
+ 
