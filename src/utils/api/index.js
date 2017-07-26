@@ -2,6 +2,7 @@ const auth = require('./auth')
 const env = require('./env')
 const injector = require('./injector')
 const md5 = require('./md5')
+const objectId = require('./objectId')
 const orm = require('./orm')
 const post = require('./post')
 const router = require('./router')
@@ -13,6 +14,7 @@ module.exports = Object.assign({},
   post,
   injector,
   md5,
+  objectId,
   orm,
   router,
   rpc
