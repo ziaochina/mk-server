@@ -1,1 +1,0 @@
-const xrServer = require('./../../src');

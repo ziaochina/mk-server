@@ -5,7 +5,8 @@ Sequelize.useCLS(cls.createNamespace('my-own-namespace'))
 exports.orm = (dbcfg) => {
   if(!dbcfg)return null;   
   var db = {};
-  if(Array.isArray(dbcfg)){ 
+  if(Array.isArray(dbcfg)){
+    db = newDB(dbcfg[0]);
     dbcfg.forEach(cfg => {
       db[cfg.name] = newDB(cfg);
     })

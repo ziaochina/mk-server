@@ -1,8 +1,12 @@
 const dao = require('./dao')
 const cfg = require('./config').current
- 
+var _service = null;
 
-exports.login = (username, password) => {  
+function service(){
+    return _service = _service || Object.assign(dao(), service);
+}
+
+service.login = (username, password) => {  
     var utils = cfg.services.utils
     if(!username){
         throw({code: "10000", message: "用户名不能为空！"})
@@ -27,3 +31,5 @@ exports.login = (username, password) => {
         }
     })
 }
+
+module.exports = service;

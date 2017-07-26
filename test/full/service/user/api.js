@@ -2,9 +2,7 @@ module.exports  = {
 
   helloworld: () => "hello world",
 
-  ping: (data) => {
-  	return data;
-  },
+  ping: (data) => data,
 
   asyn: (data, ctx) => {
     setTimeout(() => ctx.return("setTimeout 1000"), 1000)
@@ -14,7 +12,7 @@ module.exports  = {
     throw {code: "100", message: "throw error"}
   },
 
-  token: (data, ctx) => ctx.token("this is a token.").return(true),
+  login: (data, ctx) => ctx.token("this is the token.").return(true),
 
 }
  

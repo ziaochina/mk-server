@@ -4,7 +4,7 @@ const cfg = require('./config').current
 let UserLog = null 
 
 exports.UserLog = () => {
-  if(!UserLog)UserLog = cfg.services.utils.api.db.import('userLog', userLogDefine);
+  if(!UserLog)UserLog = cfg.db.import('userLog', userLogDefine);
   return UserLog;
 } 
 

@@ -1,7 +1,9 @@
 const service = require('./service')
 
-exports.login = ({username, password}, ctx) => {
-    return service.login(username, password).then(user => {
+const api = {};
+
+api.login = ({username, password}, ctx) => {
+    return service().login(username, password).then(user => {
         if(user){ 
             ctx.token([user.id, null, null, null])
             ctx.return(true)
@@ -10,7 +12,19 @@ exports.login = ({username, password}, ctx) => {
         }
     })
 }
-exports.login.auth = false
+ 
+api.ping = (dto) => dto 
+ 
+api.create = (dto, ctx) => service().create(dto).then(r => ctx.return(r)) 
 
-exports.ping = (dto) => dto 
-exports.ping.auth = false
+api.save = (dto, ctx) =>{
+    dto.id = ctx.token().userId;
+    return service().save(dto);
+}
+
+
+api.login.auth = false
+api.create.auth = false
+api.ping.auth = false
+
+module.exports = api;

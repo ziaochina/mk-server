@@ -1,10 +1,23 @@
+const config = (options) => {
+	Object.assign(current, options)
+	initServices();
+	return current
+}
 
-function config(options) { 
-	Object.assign(_options, options)  
-	return _options
-} 
+function initServices() {
+	current.services = current.services || {};
+	if (current.api && !current.services["mk-server"]) {
+		current.services["mk-server"] = {
+			apiRootUrl: '/',
+			api: current.api,
+		}
+	}
+}
 
-var _options = config.current = { 
-} 
+const current = {
 
-module.exports = config
+}
+
+module.exports = Object.assign(config, {
+	current,
+})

@@ -42,6 +42,12 @@ function init(opt){
         if(opt.auth.key){
             validator.setAuthKey(opt.auth.key);
         } 
+        if(opt.auth.token){
+            validator.setTokenKey(opt.auth.token);
+        } 
+        if(opt.auth.exclude){
+            validator.setExcludeUrls(opt.auth.exclude);
+        } 
         api.authValidator = validator;
     }else{
         api.authValidator = null;

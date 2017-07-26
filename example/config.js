@@ -4,7 +4,11 @@ function config(options) {
 	_options.services.config({ 
     utils: {
       md5: {key: "yiJia9*"},
-      auth: {key: "rrtimes.com/login/token/Key"},
+      auth: {
+          key: "rrtimes.com/login/token/Key",
+          token:['userId', 'orgId', 'versonId','appId'],
+          exclude:['/user/login','/user/ping','/user/create'],
+      },
       transactionType: "auto",
       // rpc: {
       //   dubbo:{
@@ -22,14 +26,23 @@ function config(options) {
       //     "serverUrl": "http://dev.rrtimes.com:8088",
       //   },
       // },
-      db: {
+      db: [{
+        name: "dbmanage",
         type: "mysql",
         user: "root",
         pwd: "rrsd_2016",
         host: "mysql.rrtimes.com",
         port: 30200,
         database: "dbmanage_dev",
-      }
+      },{
+        name: "bizdata",
+        type: "mysql",
+        user: "root",
+        pwd: "rrsd_2016",
+        host: "mysql.rrtimes.com",
+        port: 30200,
+        database: "bizdata_dev", 
+      }]
     },
 	})  
   return _options

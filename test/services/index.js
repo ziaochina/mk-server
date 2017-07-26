@@ -4,10 +4,6 @@ config({
     host: "localhost",
     port: 8000,
     apiRootUrl: "/v1",
-    auth:{
-        key: "privateKeys",
-        exclude:['/v1/user/login','/v1/user/create'],
-    },
     services: {
         say: {
             apiRootUrl: "/",
