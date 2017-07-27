@@ -55,6 +55,7 @@ function urlJoin(){
 
 function wrapper(request, reply, authValidator, transaction, handler, service) {
   let ctx = context(request, reply, authValidator);
+  
   if (!ctx.validate(handler)) return;
   let promise = transaction || (f => new Promise(resolve => resolve(f())));
   if (transaction && service.config && service.config.current && service.config.current.db) {

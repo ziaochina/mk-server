@@ -1,8 +1,13 @@
-const { config, api: { start, utils } } = require('./../../src');
-const myConfig = require('./config');
+//genorate by mk-tool , command: mk complite server
+const { config, start, utils } = require('./../../src');
+const serverConfig = require('./config');
+const auth = require('./services/auth')
+const db = require('./services/db') 
 const user = require('./service/user');
 const services = {
     [utils.name]: utils,
+    [auth.name]: auth,
+    [db.name]: db,
     [user.name]: user,
 }
 
@@ -15,6 +20,6 @@ services.config = function (options) {
 
 services.config({ "*": { services } })
 
-config(myConfig({ services }))
+config(serverConfig({ services }))
 
 start();

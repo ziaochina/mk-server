@@ -1,4 +1,4 @@
-const { config, api: { start } } = require('./../../src'); 
+const { config, start} = require('./../../src');
 
 config({
     host: "localhost",

@@ -1,6 +1,7 @@
 const config = (options) => {
 	Object.assign(current, options)
 	initServices();
+	initInterceptors();
 	return current
 }
 
@@ -14,8 +15,17 @@ function initServices() {
 	}
 }
 
-const current = {
+function initInterceptors() {
+	var array = current.interceptors;
+	current.interceptors = array.map(i => {
+		if (typeof i == "function") return i;
+		if (typeof i == "string") return Function('obj', 'return obj.' + i)(current);
+	})
+}
 
+const current = {
+	apiRootUrl: "/",
+	interceptors: [],
 }
 
 module.exports = Object.assign(config, {
