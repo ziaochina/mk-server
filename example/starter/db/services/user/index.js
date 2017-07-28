@@ -1,6 +1,8 @@
-const api = require("./api")
+const api = require("./api") 
+const config = require("./config")
 
 module.exports = {
-  name: "user",
-  api: api, 
+  name: "user", 
+  api, 
+  config,
 }

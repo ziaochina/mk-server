@@ -9,13 +9,14 @@ const current = {
     host: "localhost",
     port: 8000,
     apiRootUrl: "/v1",
+    website: "www",
     interceptors: ['services.auth.api.interceptor', 'services.db.api.interceptor'],
     services: {},
     options: {
         auth: {
             key: "privateKeys",
             tokenKeys: ['userId', 'orgId', 'versionId'],
-            exclude: ['/v1/user/login', '/v1/user/create'],
+            exclude: ['/v1/user/login', '/v1/user/create', '/v1/user/ping', '/v1/person/ping'],
         },
         db: {
             name: "bizdata",

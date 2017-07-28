@@ -1,8 +1,7 @@
 module.exports  = { 
 
-  ping: (data) => data,
-
   create: (logs, ctx) => logs,
-
+  
+  findAll: (where, ctx) => where,
 }
  

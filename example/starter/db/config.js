@@ -15,14 +15,14 @@ const current = {
         auth: {
             key: "privateKeys",
             tokenKeys: ['userId', 'orgId', 'versionId'],
-            exclude: ['/v1/user/login', '/v1/user/create'],
+            exclude: ['/v1/user/login', '/v1/user/create', '/v1/user/ping', '/v1/person/ping'],
         },
         db: {
             name: "bizdata",
             type: "mysql",
             user: "root",
-            pwd: "mydbpassword",
-            host: "localhost",
+            pwd: "rrsd_2016",
+            host: "mysql.rrtimes.com",
             port: 30200,
             database: "bizdata_dev",
         }

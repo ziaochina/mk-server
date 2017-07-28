@@ -8,6 +8,7 @@ config({
     host: "localhost",
     port: 8000,
     apiRootUrl: "/v1",
+    interceptors: ['services.auth.api.interceptor'],
     services: {
         auth, // apiRootUrl = false 
         person, // http://localhost:8000/v1/pseron/create
@@ -19,7 +20,7 @@ config({
 auth.config({
     key: "privateKeys",
     tokenKeys: ['userId', 'orgId', 'versionId'],
-    exclude: ['/v1/user/login', '/v1/user/create'],
+    exclude: ['/v1/user/login', '/v1/user/create', '/v1/user/ping', '/v1/person/ping'],
 })
 
 start();

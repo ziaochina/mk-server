@@ -1,8 +1,12 @@
 module.exports  = { 
+ 
+  login: ({ userName, password }, ctx) => ctx.setToken([100, 200, 300]).return(true),
 
-  helloworld: () => "hello world",
+  create: (user, ctx) => user,
 
-  ping: (data) => data,
+  update: (dto, ctx) => [ctx.token.userId, ctx.token.orgId, ctx.token.versionId],
+
+  ping: (data) => true,
 
   asyn: (data, ctx) => {
     setTimeout(() => ctx.return("setTimeout 1000"), 1000)
@@ -11,10 +15,5 @@ module.exports  = {
   err: () => {
     throw {code: "100", message: "throw error"}
   },
-
-  login: (data, ctx) => ctx.return(true),
-
-  create: (user, ctx) => user,
-
 }
  
