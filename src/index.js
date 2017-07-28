@@ -3,6 +3,9 @@ const { start } = require('./api')
  
 module.exports = {
     name: "mk-server",
+    version: "",
+    description: "",
+    author: "lsg",
     config,
     start, 
 }

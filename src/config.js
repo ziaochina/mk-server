@@ -6,7 +6,6 @@ const config = (options) => {
 }
 
 function initServices() {
-	current.services = current.services || {};
 	if (current.api && !current.services["mk-server"]) {
 		current.services["mk-server"] = {
 			apiRootUrl: '/',
