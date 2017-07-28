@@ -18,7 +18,7 @@ function start(cb) {
     });
 
     //静态文件
-    website && this.webServer.register(inert, (err) => {
+    website && webServer.register(inert, (err) => {
         if (err) {
             throw err;
         }
