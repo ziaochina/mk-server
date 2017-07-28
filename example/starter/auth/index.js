@@ -7,7 +7,7 @@ config({
     apiRootUrl: "/v1",
     interceptors: ['services.auth.api.interceptor'],
     services: {
-        auth,
+        auth, // apiRootUrl:false
         user: {
             api: {
                 //  http://localhost:8000/v1/user/helloworld 

@@ -1,9 +1,10 @@
-const options = require('./config').current
+const config = require('./config').current
 
 const ping = (data) => data;
 
 const login = (data, ctx) => {
-  return options.db.query("SELECT version() version", { type: options.db.QueryTypes.SELECT })
+  var db = config.getDB();
+  return db.query('SELECT version() version', { type: db.QueryTypes.SELECT })
     .then(version => {
       throw({code:11,message:'test roll back'})
       ctx.setToken([100, 200, 10]);
