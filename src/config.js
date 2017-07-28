@@ -25,6 +25,7 @@ function initInterceptors() {
 
 const current = {
 	apiRootUrl: "/",
+	services: {},
 	interceptors: [],
 }
 

@@ -10,9 +10,10 @@ config({
         auth,
         user: {
             api: {
-                login: ({ userNam, password }, ctx) => ctx.setToken([100, 200, 300]).return(true),
+                //  http://localhost:8000/v1/user/login
+                login: ({ userName, password }, ctx) => ctx.setToken([100, 200, 300]).return(true),
                 create: (dto, ctx) => dto,
-                update: (dto, ctx) => ctx.token.userId,
+                update: (dto, ctx) => [ctx.token.userId, ctx.token.orgId],
             },
         },
     },

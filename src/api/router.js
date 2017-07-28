@@ -32,6 +32,7 @@ const router = (apiRootUrl, services, interceptors) => {
   })
 
   wsdl(apiRootUrl, routes);//生成api描述文档
+
   return routes;
 }
 
@@ -66,12 +67,12 @@ function handlerWrapper(ctx) {
   let array = ctx.interceptors
   if (array && Array.isArray(array)) {
     for (var i = 0; i < array.length; i++) {
-      if (array[i](ctx) === false) return false; //拦截器返回false终止执行。
+      if (array[i](ctx) === false) return false; //执行拦截器，如果返回false终止执行。
     }
   }
 
   try {
-    var value = ctx.handler(data, ctx);  //无返回值时，表示handler异步调用ctx.return或ctx.error。
+    var value = ctx.handler(data, ctx);  //执行handler，无返回值时，表示handler异步调用ctx.return或ctx.error。
     if (value !== undefined) {
       ctx.return(value);
     }

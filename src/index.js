@@ -1,12 +1,10 @@
-const utils = require('./utils')
 const config = require('./config')
 const { start } = require('./api')
  
 module.exports = {
     name: "mk-server",
     config,
-    start,
-    utils,
+    start, 
 }
 
 

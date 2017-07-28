@@ -7,9 +7,6 @@ function start(cb) {
 
     let { host, port, website, apiRootUrl, services, interceptors } = options;
 
-    //绑定本地API的URL路径
-    let routes = router(apiRootUrl, services, interceptors);
-
     //创建Web服务进程
     var webServer = new Hapi.Server();
     webServer.connection({
@@ -36,6 +33,9 @@ function start(cb) {
         });
     });
 
+    //绑定本地API的URL路径
+    let routes = router(apiRootUrl, services, interceptors);
+    
     //设置api的url
     webServer.route(routes);
 

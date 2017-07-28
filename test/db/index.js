@@ -1,31 +1,17 @@
 const { config, start } = require('./../../src');
+const myConfig = require('./config')
+const auth = require('./../../src/mk-service-auth')
 const db = require('./../../src/mk-service-db')
+const person = require('./services/person')
+const user = require('./services/user')
 
-config({
-    host: "localhost",
-    port: 8000,
-    apiRootUrl: "/v1",
-    interceptors: [db.interceptor],
+config(myConfig({
     services: {
+        auth,
         db,
-        user: {
-            api: {
-                login: ({ userNam, password }, ctx) => ctx.token([100, 200, 300]).return(true),
-                create: (dto, ctx) => dto,
-                update: (dto, ctx) => [ctx.userId, ctx.orgId, ctx.versionId],
-            },
-        },
+        person,
+        user,
     },
-});
-
-db.config({
-    name: "bizdata",
-    type: "mysql",
-    user: "root",
-    pwd: "mydbpassword",
-    host: "localhost",
-    port: 30200,
-    database: "bizdata_dev",
-});
+}));
 
 start();

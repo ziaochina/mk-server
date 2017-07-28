@@ -9,5 +9,4 @@ module.exports = {
     config,
     apiRootUrl: false,
     api,
-    dependencies: ['utils'],
 }

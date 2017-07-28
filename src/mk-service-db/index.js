@@ -12,5 +12,4 @@ module.exports = {
     },
     apiRootUrl: false,
     api,
-    dependencies: ['utils'],
 }
