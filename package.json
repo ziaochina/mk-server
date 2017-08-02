@@ -1,6 +1,6 @@
 {
   "name": "mk-server",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "node restful server",
   "main": "src/index.js",
   "scripts": {
