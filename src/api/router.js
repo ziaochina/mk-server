@@ -13,9 +13,10 @@ const router = (apiRootUrl, services, interceptors) => {
     let serviceApiUrl = urlJoin(apiRootUrl, service.apiRootUrl || name.replace(/\_/g, '/'));
 
     //服务的api绑定到对应的url上。
-    Object.keys(apis).filter(i => typeof apis[i] == "function").forEach(apiName => {  
+    Object.keys(apis).filter(i => typeof apis[i] == "function" && i[0] != "_").forEach(apiName => {
       let handler = apis[apiName];
       let apiUrl = urlJoin(serviceApiUrl, apiName);
+      if (handler.apiUrl === false) return;
 
       console.log(apiUrl);
       routes.push({
