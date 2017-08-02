@@ -16,7 +16,13 @@ const router = (apiRootUrl, services, interceptors) => {
     Object.keys(apis).filter(i => typeof apis[i] == "function" && i[0] != "_").forEach(apiName => {
       let handler = apis[apiName];
       let apiUrl = urlJoin(serviceApiUrl, apiName);
-      if (handler.apiUrl === false) return;
+
+      if (handler.apiUrl) {
+        apiUrl = urlJoin(apiRootUrl, handler.apiUrl);
+      }
+      else if (handler.apiUrl === false) {
+        return
+      }
 
       console.log(apiUrl);
       routes.push({
