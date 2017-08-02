@@ -18,24 +18,28 @@ function start(cb) {
     });
 
     //静态文件
-    website && webServer.register(inert, (err) => {
-        if (err) {
-            throw err;
-        }
-        webServer.route({
-            method: 'GET',
-            path: '/{param*}',
-            handler: {
-                directory: {
-                    path: website
-                }
+    if (website) {
+        //website = website.replace(/\\/g,"/")
+        console.log("website path: " + website)
+        webServer.register(inert, (err) => {
+            if (err) {
+                throw err;
             }
+            webServer.route({
+                method: 'GET',
+                path: '/{param*}',
+                handler: {
+                    directory: {
+                        path: website
+                    }
+                }
+            });
         });
-    });
+    }
 
     //绑定本地API的URL路径
     let routes = router(apiRootUrl, services, interceptors);
-    
+
     //设置api的url
     webServer.route(routes);
 
