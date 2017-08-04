@@ -7,8 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lishengguo/mk-server.git"
+  },
   "author": "lsg",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lishengguo/mk-server/issues"
+  },
+  "homepage": "https://github.com/lishengguo/mk-server#readme",
   "dependencies": {
     "hapi": "^16.4.3",
     "inert": "^4.2.0"
