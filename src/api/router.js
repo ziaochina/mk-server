@@ -26,15 +26,15 @@ const router = (apiRootUrl, services, interceptors) => {
 
       console.log(apiUrl);
       routes.push({
-        method: 'GET',
+        method: '*',
         path: apiUrl,
         handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, apiUrl, handler, service }))
       });
-      routes.push({
-        method: 'POST',
-        path: apiUrl,
-        handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, apiUrl, handler, service }))
-      });
+      // routes.push({
+      //   method: 'POST',
+      //   path: apiUrl,
+      //   handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, apiUrl, handler, service }))
+      // });
     })
   })
 

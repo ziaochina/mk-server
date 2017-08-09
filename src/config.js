@@ -24,6 +24,8 @@ function initInterceptors() {
 
 const current = {
 	apiRootUrl: "/",
+	website: "",
+	proxy: {},
 	services: {},
 	interceptors: [],
 }

@@ -1,11 +1,11 @@
-module.exports = (url, routes) => { 
+module.exports = (url, routes) => {
     console.log(url);
 
     routes.push({
         method: 'GET',
         path: url,
         handler: (request, reply) => {
-            var apis = routes.filter(r => r.method == 'POST');
+            var apis = routes.filter(r => r.method == 'POST' || r.method == "*");
             var html = wsdlHtml(apis);
             reply(html);
         }

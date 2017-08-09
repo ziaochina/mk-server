@@ -1,11 +1,10 @@
 const Hapi = require('hapi');
-const inert = require('inert');
 const options = require('./../config').current;
 const { router } = require('./router');
 
 function start(cb) {
 
-    let { host, port, website, apiRootUrl, services, interceptors } = options;
+    let { host, port, website, apiRootUrl, services, interceptors, proxy } = options;
 
     //创建Web服务进程
     var webServer = new Hapi.Server();
@@ -19,9 +18,9 @@ function start(cb) {
 
     //静态文件
     if (website) {
-        //website = website.replace(/\\/g,"/")
         console.log("website path: " + website)
-        webServer.register(inert, (err) => {
+        // https://github.com/hapijs/inert
+        webServer.register(require('inert'), (err) => {
             if (err) {
                 throw err;
             }
@@ -35,6 +34,29 @@ function start(cb) {
                 }
             });
         });
+    }
+
+    if (proxy && Object.keys(proxy).length > 0) {
+        console.log("proxy path: " + JSON.stringify(proxy))
+        // https://github.com/hapijs/h2o2
+        webServer.register(require("./../lib/h2o2/lib"), (err) => {
+            if (err) {
+                throw err;
+            }
+            let proxyRoutes = []
+            Object.keys(proxy).forEach(p => {
+                proxyRoutes.push({
+                    method: "*",
+                    path: p,
+                    handler: {
+                        proxy: {
+                            uri: proxy[p]
+                        }
+                    }
+                }) 
+            })
+            webServer.route(proxyRoutes);
+        }); 
     }
 
     //绑定本地API的URL路径
