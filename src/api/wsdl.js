@@ -1,5 +1,5 @@
 module.exports = (url, routes) => {
-    console.log(url);
+    console.log("wsdl path: " + url);
 
     routes.push({
         method: 'GET',

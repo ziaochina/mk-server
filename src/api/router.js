@@ -24,17 +24,17 @@ const router = (apiRootUrl, services, interceptors) => {
         return
       }
 
-      console.log(apiUrl);
+      console.log("api path: " + apiUrl);
       routes.push({
-        method: '*',
+        method: 'GET',
         path: apiUrl,
         handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, apiUrl, handler, service }))
       });
-      // routes.push({
-      //   method: 'POST',
-      //   path: apiUrl,
-      //   handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, apiUrl, handler, service }))
-      // });
+      routes.push({
+        method: 'POST',
+        path: apiUrl,
+        handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, apiUrl, handler, service }))
+      });
     })
   })
 
@@ -63,6 +63,7 @@ function context(ctx) {
         stack: ex.stack,
       };
       ctx.reply(ctx.resBody);
+      console.error(ctx.resBody.error)
     }
   });
 }
@@ -80,7 +81,13 @@ function handlerWrapper(ctx) {
 
   try {
     var value = ctx.handler(data, ctx);  //执行handler，无返回值时，表示handler异步调用ctx.return或ctx.error。
-    if (value !== undefined) {
+    var promise = value;
+    if (promise instanceof Promise || promise && promise.catch && promise.then) {
+      promise
+        .then(ctx.return)
+        .catch(ctx.error)
+    }
+    else if (value !== undefined) {
       ctx.return(value);
     }
   } catch (ex) {

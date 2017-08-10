@@ -25,7 +25,7 @@ function start(cb) {
                 throw err;
             }
             webServer.route({
-                method: 'GET',
+                method: '*',
                 path: '/{param*}',
                 handler: {
                     directory: {
@@ -36,8 +36,7 @@ function start(cb) {
         });
     }
 
-    if (proxy && Object.keys(proxy).length > 0) {
-        console.log("proxy path: " + JSON.stringify(proxy))
+    if (proxy && Object.keys(proxy).length > 0) { 
         // https://github.com/hapijs/h2o2
         webServer.register(require("./../lib/h2o2/lib"), (err) => {
             if (err) {
@@ -45,18 +44,30 @@ function start(cb) {
             }
             let proxyRoutes = []
             Object.keys(proxy).forEach(p => {
+                console.log("proxy path: " + p + " => " + proxy[p])
                 proxyRoutes.push({
-                    method: "*",
+                    method: "GET",
                     path: p,
                     handler: {
                         proxy: {
+                            passThrough: true,
                             uri: proxy[p]
                         }
                     }
-                }) 
+                })
+                proxyRoutes.push({
+                    method: "POST",
+                    path: p,
+                    handler: {
+                        proxy: {
+                            passThrough: true,
+                            uri: proxy[p]
+                        }
+                    }
+                })
             })
             webServer.route(proxyRoutes);
-        }); 
+        });
     }
 
     //绑定本地API的URL路径
