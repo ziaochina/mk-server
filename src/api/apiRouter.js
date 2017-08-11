@@ -2,7 +2,7 @@ const path = require("path")
 const wsdl = require("./wsdl")
 
 //处理全部服务的api与url绑定。
-const router = (apiRootUrl, services, interceptors) => {
+const apiRouter = (apiRootUrl, services, interceptors) => {
   let routes = [];
   Object.keys(services).forEach(key => {
     let service = services[key];
@@ -10,7 +10,7 @@ const router = (apiRootUrl, services, interceptors) => {
     if (!apis || service.apiRootUrl === false) return;
 
     let name = service.name || key;
-    let serviceApiUrl = urlJoin(apiRootUrl, service.apiRootUrl || name.replace(/\_/g, '/'));
+    let serviceApiUrl = urlJoin(apiRootUrl, service.apiRootUrl || name.replace(/\_/g, "/"));
 
     //服务的api绑定到对应的url上。
     Object.keys(apis).filter(i => typeof apis[i] == "function" && i[0] != "_").forEach(apiName => {
@@ -24,14 +24,9 @@ const router = (apiRootUrl, services, interceptors) => {
         return
       }
 
-      console.log("api path: " + apiUrl);
+      console.log(`api path:  ${apiUrl} \t=>\t ${service.name}.api.${apiName}`);
       routes.push({
-        method: 'GET',
-        path: apiUrl,
-        handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, apiUrl, handler, service }))
-      });
-      routes.push({
-        method: 'POST',
+        method: ["GET", "POST"],
         path: apiUrl,
         handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, apiUrl, handler, service }))
       });
@@ -96,6 +91,4 @@ function handlerWrapper(ctx) {
 
 }
 
-module.exports = {
-  router,
-} 
+module.exports = apiRouter

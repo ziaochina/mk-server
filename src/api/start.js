@@ -1,10 +1,11 @@
 const Hapi = require('hapi');
 const options = require('./../config').current;
-const { router } = require('./router');
+const apiRouter = require('./apiRouter');
+const webRouter = require('./webRouter');
 
 function start(cb) {
 
-    let { host, port, website, apiRootUrl, services, interceptors, proxy } = options;
+    let { host, port, website, apiRootUrl, services, interceptors } = options;
 
     //创建Web服务进程
     var webServer = new Hapi.Server();
@@ -16,62 +17,34 @@ function start(cb) {
         },
     });
 
-    //静态文件
-    if (website) {
-        console.log("website path: " + website)
-        // https://github.com/hapijs/inert
+
+    let { dir, proxy } = webRouter(website);
+
+    //静态文件  // https://github.com/hapijs/inert
+    if (dir && dir.length) {
+        dir.forEach(i => console.log("website path: " + i.path + " \t=>\t " + i.handler.directory.path))
         webServer.register(require('inert'), (err) => {
             if (err) {
                 throw err;
             }
-            webServer.route({
-                method: '*',
-                path: '/{param*}',
-                handler: {
-                    directory: {
-                        path: website
-                    }
-                }
-            });
+            webServer.route(dir);
         });
     }
 
-    if (proxy && Object.keys(proxy).length > 0) { 
-        // https://github.com/hapijs/h2o2
+    //反向代理  // https://github.com/lishengguo/h2o2
+    if (proxy && proxy.length) {
+        proxy.forEach(i => console.log("proxy path: " + i.path + " \t=>\t " + i.handler.proxy.uri))
         webServer.register(require("./../lib/h2o2/lib"), (err) => {
             if (err) {
                 throw err;
             }
-            let proxyRoutes = []
-            Object.keys(proxy).forEach(p => {
-                console.log("proxy path: " + p + " => " + proxy[p])
-                proxyRoutes.push({
-                    method: "GET",
-                    path: p,
-                    handler: {
-                        proxy: {
-                            passThrough: true,
-                            uri: proxy[p]
-                        }
-                    }
-                })
-                proxyRoutes.push({
-                    method: "POST",
-                    path: p,
-                    handler: {
-                        proxy: {
-                            passThrough: true,
-                            uri: proxy[p]
-                        }
-                    }
-                })
-            })
-            webServer.route(proxyRoutes);
+            webServer.route(proxy);
         });
     }
 
+
     //绑定本地API的URL路径
-    let routes = router(apiRootUrl, services, interceptors);
+    let routes = apiRouter(apiRootUrl, services, interceptors);
 
     //设置api的url
     webServer.route(routes);

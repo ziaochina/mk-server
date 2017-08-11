@@ -43,7 +43,8 @@ internals.schema = Joi.object({
     ttl: Joi.string().valid('upstream').allow(null),
     maxSockets: Joi.number().positive().allow(false)
 })
-    .xor('host', 'mapUri', 'uri')
+    // .xor('host', 'mapUri', 'uri') // uri和host同时存在时，host表示反向代理请求的header.host
+    .xor('mapUri', 'uri')
     .without('mapUri', 'port', 'protocol')
     .without('uri', 'port', 'protocol');
 
@@ -165,9 +166,9 @@ internals.handler = function (route, handlerOptions) {
                 }
 
                 return reply(res)
-                .ttl(ttl)
-                .code(res.statusCode)
-                .passThrough(!!settings.passThrough);   // Default to false
+                    .ttl(ttl)
+                    .code(res.statusCode)
+                    .passThrough(!!settings.passThrough);   // Default to false
             });
         });
     };
@@ -196,18 +197,24 @@ internals.mapUri = function (protocol, host, port, uri, path) {
             }
 
             let address = uri.replace(/{protocol}/g, request.connection.info.protocol)
-                             .replace(/{host}/g, request.connection.info.host)
-                             .replace(/{port}/g, request.connection.info.port)
-                             .replace(/{path\*}/g, request.url.path.substr(path.indexOf('{path*}'))) //Compatible with nginx R-Proxy
-                             .replace(/{path}/g, request.url.path);
+                .replace(/{host}/g, request.connection.info.host)
+                .replace(/{port}/g, request.connection.info.port)
+                .replace(/{path\*}/g, request.url.path.substr(path.indexOf('{path*}'))) //Compatible with nginx R-Proxy
+                .replace(/{path}/g, request.url.path);
 
             Object.keys(request.params).forEach((key) => {
 
-                const re = new RegExp(`{${key}}`,'g');
-                address = address.replace(re,request.params[key]);
+                const re = new RegExp(`{${key}}`, 'g');
+                address = address.replace(re, request.params[key]);
             });
 
-            return next(null, address);
+            let headers = {}; //支持设置反向代理的header.host
+            if (host) {
+                host = host.replace(/{host}/g, request.connection.info.host)
+                headers.host = host;
+            }
+
+            return next(null, address, headers);
         };
     }
 
