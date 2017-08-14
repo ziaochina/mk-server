@@ -6,6 +6,11 @@ const webRouter = require('./webRouter');
 function start(cb) {
 
     let { host, port, website, apiRootUrl, services, interceptors } = options;
+    
+    if (services && services._delayStart === true) {
+        services._start = start
+        return
+    }
 
     //创建Web服务进程
     var webServer = new Hapi.Server();
