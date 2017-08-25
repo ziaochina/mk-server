@@ -17,19 +17,25 @@ const apiRouter = (apiRootUrl, services, interceptors) => {
       let handler = apis[apiName];
       let apiUrl = urlJoin(serviceApiUrl, apiName);
 
+      let urls = [apiUrl]
       if (handler.apiUrl) {
-        apiUrl = urlJoin(apiRootUrl, handler.apiUrl);
+        if (handler.apiUrl.indexOf(",") != -1) {
+          urls = apiUrl.split(",").map(url => urlJoin(apiRootUrl, url))
+        } else {
+          apiUrl = urlJoin(apiRootUrl, handler.apiUrl);
+          urls = [apiUrl]
+        }
       }
       else if (handler.apiUrl === false) {
         return
       }
 
-      console.log(`api path:  ${apiUrl} \t=>\t ${service.name}.api.${apiName}`);
-      routes.push({
+      console.log(`api path:  ${apiUrl} \t\t=>\t ${service.name}.api.${apiName}`);
+      urls.forEach(url => routes.push({
         method: ["GET", "POST"],
-        path: apiUrl,
-        handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, apiUrl, handler, service }))
-      });
+        path: url,
+        handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, url, handler, service }))
+      }))
     })
   })
 
@@ -53,7 +59,7 @@ function context(ctx) {
     error: (ex) => {
       ctx.resBody.result = false;
       ctx.resBody.error = {
-        message: ex.message,
+        message: ex.message || ex,
         code: ex.code,
         stack: ex.stack,
       };
