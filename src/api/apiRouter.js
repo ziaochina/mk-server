@@ -69,10 +69,15 @@ function context(ctx) {
   });
 }
 
-function handlerWrapper(ctx) {
-
-  let data = ctx.request.payload || ctx.request.url.query;
-
+function handlerWrapper(ctx) { 
+  let request = ctx.request
+  let data = null
+  if (request.method == "get") {
+    data = Object.assign({}, request.url.query);
+  } else {
+    data = request.payload
+  }
+  
   let array = ctx.interceptors
   if (array && Array.isArray(array)) {
     for (var i = 0; i < array.length; i++) {
