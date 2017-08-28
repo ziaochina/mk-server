@@ -34,7 +34,7 @@ const apiRouter = (apiRootUrl, services, interceptors) => {
       urls.forEach(url => routes.push({
         method: ["GET", "POST"],
         path: url,
-        handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, url, handler, service }))
+        handler: (request, reply) => handlerWrapper(context({ request, reply, interceptors, apiUrl: url, handler, service }))
       }))
     })
   })
