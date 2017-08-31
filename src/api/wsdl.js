@@ -5,7 +5,12 @@ module.exports = (url, routes) => {
         method: 'GET',
         path: url,
         handler: (request, reply) => {
-            var apis = routes.filter(r => r.method == 'POST' || r.method == "*");
+            var apis = routes.filter(r => {
+                if (Array.isArray(r.method)) {
+                    if (r.method.filter(m => m == "POST").length > 0) return true
+                }
+                return r.method == 'POST' || r.method == "*";
+            });
             var html = wsdlHtml(apis);
             reply(html);
         }
